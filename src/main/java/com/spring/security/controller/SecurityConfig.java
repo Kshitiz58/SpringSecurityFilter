@@ -25,23 +25,24 @@ public class SecurityConfig {
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-		return httpSecurity
-				.csrf(AbstractHttpConfigurer::disable)
+		return httpSecurity.
+				csrf(AbstractHttpConfigurer::disable)
 				.authorizeHttpRequests(registry -> {
-				registry.requestMatchers("/home", "/register/**").permitAll();
-				registry.requestMatchers("/admin/**").hasRole("ADMIN");
-				registry.requestMatchers("/user/**").hasRole("USER");
-				registry.anyRequest().authenticated();
-			})
+					registry.requestMatchers("/css/**", "/error/**").permitAll();
+					registry.requestMatchers("/home", "/register/**").permitAll();
+					registry.requestMatchers("/admin/**").hasRole("ADMIN");
+					registry.requestMatchers("/user/**").hasRole("USER");
+					registry.anyRequest().authenticated();
+				})
 
 //				Abstracted Method
-				.formLogin(httpSecurityFormLoginConfigurer ->{
+				.formLogin(httpSecurityFormLoginConfigurer -> {
 					httpSecurityFormLoginConfigurer
 					.loginPage("/login")
 					.successHandler(new AuthSuccessHandler())
 					.permitAll();
 				})
-				
+
 				.build();
 
 	}
@@ -54,8 +55,10 @@ public class SecurityConfig {
 	@Bean
 	public AuthenticationProvider authenticationProvider() {
 		DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-		provider.setUserDetailsService(myUserDetailService);
-		provider.setPasswordEncoder(passwordEncoder());
+		provider
+		.setUserDetailsService(myUserDetailService);
+		provider
+		.setPasswordEncoder(passwordEncoder());
 		return provider;
 
 	}
