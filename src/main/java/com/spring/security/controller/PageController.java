@@ -18,4 +18,8 @@ public class PageController {
 	public String getUserpage() {
 		return "user";
 	}
+	@GetMapping("/login")
+	public String getLoginpage() {
+		return "login";
+	}
 }
