@@ -7,13 +7,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.spring.security.model.MyUser;
-import com.spring.security.repository.MyUserRepository;
+import com.spring.security.repository.CustomUserRepository;
 
 @RestController
-public class SignupRestController {
+public class RestControllerForSignup {
 
 	@Autowired
-	private MyUserRepository myUserRepo;
+	private CustomUserRepository myUserRepo;
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;

@@ -8,20 +8,20 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.spring.security.model.MyUser;
-import com.spring.security.repository.MyUserRepository;
+import com.spring.security.repository.CustomUserRepository;
 
 @Controller
-public class PageController {
+public class UserController {
 	
 	@Autowired 
-	private MyUserRepository userRepo;
+	private CustomUserRepository userRepo;
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
-	@GetMapping("/home")
+	@GetMapping("/")
 	public String getHomepage() {
-		return "home";
+		return "index";
 	}
 	@GetMapping("/admin/home")
 	public String getAdminpage() {
@@ -31,18 +31,11 @@ public class PageController {
 	public String getUserpage() {
 		return "user";
 	}
-	@GetMapping("/login")
-	public String getLoginpage() {
-		return "login";
-	}
-	@GetMapping("/signup")
-	public String getSignuppage() {
-		return "signup";
-	}
+
 	@PostMapping("/signup")
 	public String postSignup(@ModelAttribute MyUser user) {
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		userRepo.save(user);
-		return "redirect:/login";
+		return "redirect:/";
 	}
 }

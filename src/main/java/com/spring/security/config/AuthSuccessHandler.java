@@ -1,7 +1,8 @@
-package com.spring.security.service;
+package com.spring.security.config;
 
 import java.io.IOException;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 
 import jakarta.servlet.ServletException;
@@ -12,8 +13,10 @@ public class AuthSuccessHandler extends SavedRequestAwareAuthenticationSuccessHa
 
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
-			org.springframework.security.core.Authentication authentication) throws ServletException, IOException {
-		boolean isAdmin = authentication.getAuthorities().stream()
+			Authentication authentication) throws ServletException, IOException {
+		boolean isAdmin = authentication
+				.getAuthorities()
+				.stream()
 				.anyMatch(grantedAuthority -> grantedAuthority
 				.getAuthority()
 				.equals("ROLE_ADMIN"));

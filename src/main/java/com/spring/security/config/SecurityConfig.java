@@ -1,4 +1,4 @@
-package com.spring.security.controller;
+package com.spring.security.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -13,7 +13,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-import com.spring.security.service.AuthSuccessHandler;
 import com.spring.security.service.MyUserDetailsService;
 
 @Configuration
@@ -25,11 +24,11 @@ public class SecurityConfig {
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-		return httpSecurity.
-				csrf(AbstractHttpConfigurer::disable)
+		return httpSecurity
+				.csrf(AbstractHttpConfigurer::disable)
 				.authorizeHttpRequests(registry -> {
-					registry.requestMatchers("/css/**", "/error/**").permitAll();
-					registry.requestMatchers("/home", "/register/**").permitAll();
+					registry.requestMatchers("/css/**", "/error/**","/Homepage/**").permitAll();
+					registry.requestMatchers("/").permitAll();
 					registry.requestMatchers("/admin/**").hasRole("ADMIN");
 					registry.requestMatchers("/user/**").hasRole("USER");
 					registry.anyRequest().authenticated();
@@ -55,10 +54,8 @@ public class SecurityConfig {
 	@Bean
 	public AuthenticationProvider authenticationProvider() {
 		DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-		provider
-		.setUserDetailsService(myUserDetailService);
-		provider
-		.setPasswordEncoder(passwordEncoder());
+		provider.setUserDetailsService(myUserDetailService);
+		provider.setPasswordEncoder(passwordEncoder());
 		return provider;
 
 	}
